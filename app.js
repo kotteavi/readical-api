@@ -8,7 +8,7 @@ const pug = require('pug');
 
 var app = express();
 app.use(cors());  // Enable CORS headers on responses for all routes.
-app.set('view engine', 'pug');
+// app.set('view engine', 'pug');
 app.use(express.static('public'));
 app.use(express.static('widgetSample'));
 
@@ -72,13 +72,6 @@ app.get('/widgetData', (req, res) => {
   });
   // res.render('widget', { syncData: syncData });
 
-});
-
-
-app.get('/widgetAudio.js', (req, res) => {
-  res.send({
-    status: 'ok'
-  });
 });
 
 app.listen(SERVER_PORT, '0.0.0.0');
