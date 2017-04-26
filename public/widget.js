@@ -11,7 +11,7 @@ var Readical = (function (window, undefined) {
         WIDGET_HOST_NAME = 'http://widget.dev:8081';
     }
     else {
-        WIDGET_HOST_NAME = 'https://readical.herokuapp.com/';
+        WIDGET_HOST_NAME = 'https://readical.herokuapp.com';
     }
     var SUPPORTING_FILES = {
         verge: WIDGET_HOST_NAME + '/verge.js',
