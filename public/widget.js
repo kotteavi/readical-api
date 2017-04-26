@@ -5,17 +5,17 @@ var Readical = (function (window, undefined) {
 
     var READICAL_SCRIPT_ID = 'readical-widget';
     var READICAL_ATTRIBUTE_ID = 'data-readical-id';
-    
+
     var WIDGET_HOST_NAME = '';
-    if (location.hostname != "publisher.dev") {
-        HOST_NAME = 'https://readical.herokuapp.com/';
+    if (location.hostname == "publisher.dev") {
+        WIDGET_HOST_NAME = 'http://widget.dev:8081';
     }
     else {
-        WIDGET_HOST_NAME = 'http://widget.dev:8081'
+        WIDGET_HOST_NAME = 'https://readical.herokuapp.com/';
     }
     var SUPPORTING_FILES = {
-        verge: WIDGET_HOST_NAME+'/verge.js',
-        most_visible: WIDGET_HOST_NAME+'/most-visible.js'
+        verge: WIDGET_HOST_NAME + '/verge.js',
+        most_visible: WIDGET_HOST_NAME + '/most-visible.js'
     }
 
     //  loads files asynchronously
@@ -44,10 +44,10 @@ var Readical = (function (window, undefined) {
     }
 
     function loadSupportingFiles() {
-        Readical.loadScript(WIDGET_HOST_NAME+'/verge.js', function () {
+        Readical.loadScript(WIDGET_HOST_NAME + '/verge.js', function () {
             Readical.verge = readical_helper_verge;
         });
-        Readical.loadScript(WIDGET_HOST_NAME+'/most-visible.js', function () {
+        Readical.loadScript(WIDGET_HOST_NAME + '/most-visible.js', function () {
             Readical.most_visible = readical_helper_mostVisible;
         });
     };
@@ -100,7 +100,7 @@ var Readical = (function (window, undefined) {
 
 
     function getWidgetData(widgetParams) {
-        var url = WIDGET_HOST_NAME+'/widgetData?page=' + widgetParams.id;
+        var url = WIDGET_HOST_NAME + '/widgetData?page=' + widgetParams.id;
         console.log(url);
         return Readical.xhr({
             method: 'get',
