@@ -12,6 +12,26 @@ app.set('view engine', 'pug');
 app.use(express.static('public'));
 app.use(express.static('widgetSample'));
 
+const NODE_ENV = process.env.NODE_ENV || 'development';
+const IS_PROD = NODE_ENV === 'production';
+// https://readical.herokuapp.com/
+if (IS_PROD) {
+  process.env.SERVER_USE_HTTPS = process.env.SERVER_USE_HTTPS || 'true';
+  process.env.CLIENT_USE_HTTPS = process.env.CLIENT_USE_HTTPS || 'true';
+  process.env.CLIENT_HOST = process.env.CLIENT_HOST || 'readical.herokuapp.com';
+  process.env.CLIENT_PORT = process.env.CLIENT_PORT || '';
+}
+
+const SERVER_USE_HTTPS = (process.env.SERVER_USE_HTTPS || '').toString === 'true';
+const SERVER_PROTOCOL = SERVER_USE_HTTPS ? 'https:' : 'http:';
+const SERVER_HOST = process.env.SERVER_HOST || process.env.HOST || '0.0.0.0';
+const SERVER_PORT = process.env.SERVER_PORT || process.env.PORT || 8081;
+
+const CLIENT_USE_HTTPS = (process.env.CLIENT_USE_HTTPS || '').toString === 'true';
+const CLIENT_PROTOCOL = CLIENT_USE_HTTPS ? 'https:' : 'http:';
+const CLIENT_HOST = process.env.CLIENT_HOST || process.env.HOST || '0.0.0.0';
+const CLIENT_PORT = process.env.CLIENT_PORT || process.env.PORT || 8081;
+
 app.get('/', (req, res) => {
   res.send({
     status: 'ok'
@@ -61,4 +81,9 @@ app.get('/widgetAudio.js', (req, res) => {
   });
 });
 
-app.listen(8081, 'widget.dev');
+app.listen(SERVER_PORT, '0.0.0.0');
+
+// app.listen(SERVER_PORT, '0.0.0.0', () => {
+//   console.log('Listening on port %s//%s:%s',
+//     SERVER_PROTOCOL, SERVER_HOST, SERVER_PORT);
+// });

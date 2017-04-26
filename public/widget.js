@@ -5,6 +5,9 @@ var Readical = (function (window, undefined) {
 
     var READICAL_SCRIPT_ID = 'readical-widget';
     var READICAL_ATTRIBUTE_ID = 'data-readical-id';
+    if (location.hostname != "publisher.dev") {
+        HOST_NAME = publisher.dev
+    }
     var SUPPORTING_FILES = {
         verge: 'http://widget.dev:8081/verge.js',
         most_visible: 'http://widget.dev:8081/most-visible.js'
