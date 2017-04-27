@@ -58,7 +58,7 @@ app.get('/widgetData', (req, res) => {
 
     var audioAttributes = {
       page: page,
-      src: 'http://widget.dev:8081/ISSTH1364.ogg'
+      src: 'https://readical.herokuapp.com/ISSTH1364.ogg'
     }
 
     html = pug.renderFile('./views/widget.pug', {
