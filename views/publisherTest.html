@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Publisher Test Page</title>
+</head>
+
+<body>
+    <h1>Publisher Test Page</h1>
+    <!-- script include snippet here 
+    <script async src="http://widget.dev:8081/sample"></script> 
+                    // https://readical.herokuapp.com/
+    -->
+    <div>
+        <script id="readical-widget" data-readical-id="ISSTH_1364">
+            (function () {
+                var script = document.createElement('script');
+                script.async = true;
+
+                var WIDGET_HOST_NAME = '';
+                if (location.hostname == "widget.dev") {
+                    WIDGET_HOST_NAME = 'http://widget.dev:8081'
+                }
+                else {
+                    WIDGET_HOST_NAME = 'https://readical.herokuapp.com/';
+                }
+
+                script.src = WIDGET_HOST_NAME+'/widget.js';
+
+                var entry = document.getElementById('readical-widget');
+                entry.parentNode.insertBefore(script, entry);
+            })();
+        </script>
+    </div>
+</body>
+
+</html>

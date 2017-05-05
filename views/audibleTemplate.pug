@@ -1,0 +1,63 @@
+doctype html
+html
+    head
+        link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css")
+        link(href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css", rel="stylesheet", integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN", crossorigin="anonymous")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        script(src='/most-visible.js')
+        script(src='/verge.js')
+        script(src='/lib/audiojs/audio.js')
+        
+    body
+        div(class='container' )
+            div(class="row")
+                div(class="twelve columns")
+                    p(style='margin-bottom: 0;') 
+                        em Now reading:
+                        h4( style='border-bottom: 2px solid #999;') I Shall Seal the Heavens (我欲封天)
+
+            div(class="row" id='article-controle-container')
+                div(id='article-controle-menu')
+                    div(class="four columns")
+                        a(class id='subtitle-audio' style='color: inherit;')    
+                            <i class="fa fa-volume-up fa-lg" aria-hidden="true"></i>
+                            span(class="title-span")  Audio Version 
+                        //- div(id='readical_player' class='footer navbar-fixed-bottom container') 
+                    div(class="four columns" style='')
+                        <i class="fa fa-commenting fa-lg" aria-hidden="true"></i>
+                        span(class="title-span" )  Commentary 
+                    div(class="four columns" )
+                        //- span(class="title-span")
+                        <i class="fa fa-print fa-lg" aria-hidden="true"></i> 
+                        span(class="title-span" ) Print PDF
+                        //- <i class="fa fa-facebook fa-lg" aria-hidden="true"></i>
+                        //- <i class="fa fa-twitter fa-lg" aria-hidden="true"></i>
+                        //- <i class="fa fa-pinterest-p fa-lg" aria-hidden="true"></i>
+                        //- <i class="fa fa-share-alt fa-lg" aria-hidden="true"></i>
+                    //- div(class= 'three columns')
+                    //-     span(class="title-span" id='read-time')
+                div(id='article-controle-player' style='display: table; display: none; width: 100%;')
+                    div(style='display: table-cell; vertical-align: middle;')
+                        <i class="fa fa-play fa-lg" aria-hidden="true" ></i>
+                        <i class="fa fa-pause" aria-hidden="true" style='display: none;'></i>  
+                    div(style='display: table-cell; width:100%; vertical-align: middle;')
+                        audio(id='readical_audio' src=audio.src )
+                    div(style='display: table-cell; vertical-align: middle; ')
+                        <i class="fa fa-times-circle-o fa-lg" id='player-x' aria-hidden="true"></i>  
+
+            div(class='row')
+                div(id='readical_subtitles' )
+                    each spanArray, pKey in syncData
+                        p
+                            each spanMeta, index in syncData[pKey]
+                                span(id=spanMeta.id, class=spanMeta.class) #{spanMeta.word}
+
+                                
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js')
+    script(src='/lib/estimate.js')
+    
+    script(src='/readical.js')
+    link(rel='stylesheet', href='/css/readicalStyles.css')
+    
+
+

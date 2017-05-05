@@ -79,8 +79,8 @@
 			var rect      = element.getBoundingClientRect(),
 				height    = rect.bottom - rect.top,
 				visible   = {
-					top: rect.top >= 0 && rect.top < this.viewportHeight,
-					bottom: rect.bottom > 0 && rect.bottom < this.viewportHeight
+					top: rect.top >= height*3 && rect.top < this.viewportHeight,
+					bottom: rect.bottom > height*3 && rect.bottom < this.viewportHeight
 				},
 				visiblePx = 0;
 

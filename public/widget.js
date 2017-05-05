@@ -7,7 +7,7 @@ var Readical = (function (window, undefined) {
     var READICAL_ATTRIBUTE_ID = 'data-readical-id';
 
     var WIDGET_HOST_NAME = '';
-    if (location.hostname == "publisher.dev") {
+    if (location.hostname == "publisher.dev" || location.hostname == "widget.dev") {
         WIDGET_HOST_NAME = 'http://widget.dev:8081';
     }
     else {

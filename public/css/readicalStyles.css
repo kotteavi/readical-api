@@ -1,0 +1,67 @@
+/*#readical_player {
+position: fixed;
+bottom: 0;
+width: 100%
+}*/
+
+/*#readical_audio{
+    width:100%
+}*/
+
+#article-controle-container{
+   background-color: white;
+   z-index:1;
+}
+
+#article-controle-player{
+    display: none;
+}
+
+.audiojs {
+    width: 100%;
+    background: white;
+    /*display:inline*/
+}
+
+.audiojs .scrubber {
+    width: calc(100% - 115px);
+    background: #dbdbdb;
+    
+}
+
+.audiojs .progress {
+    background: #9bcee4;
+}
+
+
+.audiojs .loaded {
+    background: #145e7d;
+}
+
+.audiojs .time {
+    color: black;
+}
+
+/*.audiojs .time:last{
+    padding-right: 0px;
+}*/
+
+/*.audiojs .play-pause{
+    width: 40px
+}*/
+
+.container p{
+    font-size: 100%
+}
+
+.title-span {
+    font-size: 1.25em;
+}
+
+#readical_subtitles {
+    margin-top: 25px;
+}
+
+
+
+

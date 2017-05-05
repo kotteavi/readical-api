@@ -8,8 +8,9 @@ const pug = require('pug');
 
 var app = express();
 app.use(cors());  // Enable CORS headers on responses for all routes.
-// app.set('view engine', 'pug');
+app.set('view engine', 'pug');
 app.use(express.static('public'));
+app.use(express.static('views'));
 app.use(express.static('widgetSample'));
 
 const NODE_ENV = process.env.NODE_ENV || 'development';
@@ -38,11 +39,11 @@ app.get('/', (req, res) => {
   });
 });
 
-
 const structure = require('./js/extrapolateVoiceText/structure.js');
 const sample = require('./widgetSample/ISSTHWatsonResults.js');
 const extrapolation = require('./js/extrapolateVoiceText/extrapolation.js');
 
+// The third party script calls this end point
 app.get('/widgetData', (req, res) => {
   var page = req.query.page;
 
@@ -61,7 +62,7 @@ app.get('/widgetData', (req, res) => {
       src: 'https://readical.herokuapp.com/ISSTH1364.ogg'
     }
 
-    html = pug.renderFile('./views/widget.pug', {
+    html = pug.renderFile('./views/widgetTemplate.pug', {
       syncData: syncData,
       audio: audioAttributes
     });
@@ -70,13 +71,30 @@ app.get('/widgetData', (req, res) => {
   res.send({
     html: html
   });
-  // res.render('widget', { syncData: syncData });
+});
+
+// Renders audible test page, it has text and player that sync
+app.get('/audibleTest', (req, res) => {
+
+  var data = fs.readFileSync('./widgetSample/ISSTH1364.txt');
+  data = structure.createWordsMetadata(data.toString());
+
+  var timestamps = structure.getTimestamps(sample.watsonResults);
+
+  extrapolation.fixMetaData(data, timestamps);
+  var syncData = structure.createSyncMetaData(data);
+
+  var audioAttributes = {
+    src: '/ISSTH1364_64kpbs.mp3'
+  }
+
+  var attributes = {
+    syncData: syncData,
+    audio: audioAttributes
+  };
+
+  res.render('../views/audibleTemplate.pug', attributes);
 
 });
 
 app.listen(SERVER_PORT, '0.0.0.0');
-
-// app.listen(SERVER_PORT, '0.0.0.0', () => {
-//   console.log('Listening on port %s//%s:%s',
-//     SERVER_PROTOCOL, SERVER_HOST, SERVER_PORT);
-// });
