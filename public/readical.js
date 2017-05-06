@@ -7,6 +7,10 @@ $(document).ready(function () {
             var wordSpans = document.querySelectorAll('.readical_wordSpan');
             var options = { percentage: true };
             Readical.mostVisible = new readical_helper_mostVisible(wordSpans, options);
+            Readical.playerStat = {
+                currPositionElements: null,
+                isVisible: false
+            };
         };
         initialize();
 
@@ -25,9 +29,10 @@ $(document).ready(function () {
                 currTime = audioPlayer.currentTime;
                 flatTime = Math.floor(currTime);
 
-                if (flatTime != prevFlatTime) {
+                if (flatTime != prevFlatTime && Readical.playerStat.isVisible) {
                     className = 'readical_group_' + flatTime;
                     elements = document.getElementsByClassName(className);
+                    Readical.playerStat.currPositionElements = elements;
                     for (let i = 0; i < elements.length; i++) {
                         elements[i].style.background = 'yellow';
                         if (!readical_helper_verge.inViewport(elements[i])) {
@@ -40,7 +45,7 @@ $(document).ready(function () {
                 }
 
                 // unhilight prev word or phrase
-                if (flatTime > prevFlatTime || flatTime < prevFlatTime) {
+                if ((flatTime > prevFlatTime || flatTime < prevFlatTime) && Readical.playerStat.isVisible) {
                     className = 'readical_group_' + prevFlatTime;
                     elements = document.getElementsByClassName(className);
                     for (let i = 0; i < elements.length; i++) {
@@ -80,6 +85,7 @@ $(document).ready(function () {
             audioLink.addEventListener('click', function () {
                 controlsMenu.style.display = 'none';
                 player.style.display = 'table';
+                Readical.playerStat.isVisible = true;
             });
 
             playerX.addEventListener('click', function () {
@@ -89,6 +95,13 @@ $(document).ready(function () {
 
                 pause.style.display = 'none';
                 play.style.display = '';
+                Readical.playerStat.isVisible = false;
+
+                // clear hilighted 
+                var elements = Readical.playerStat.currPositionElements;
+                for (let i = 0; i < elements.length; i++) {
+                    elements[i].style.background = '';
+                }
             });
 
 
@@ -118,7 +131,7 @@ $(document).ready(function () {
 
         $(window).scroll(function () {
 
-            var article =  $('#article-controle-container');
+            var article = $('#article-controle-container');
             if ($(this).scrollTop() > article.position().top) {
                 article.css({ position: 'fixed', top: 0, 'padding-left': '0', 'padding-right': 40 });
                 article.removeClass("row");
@@ -147,7 +160,7 @@ $(document).ready(function () {
         //     document.getElementById('read-time').innerHTML = min + ' min read';
         // }
         // addArticleTime();
-            
+
 
         return Readical;
     })(window);
