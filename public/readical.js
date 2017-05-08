@@ -11,6 +11,7 @@ $(document).ready(function () {
                 currPositionElements: null,
                 isVisible: false
             };
+            Readical.player = null;
         };
         initialize();
 
@@ -86,6 +87,8 @@ $(document).ready(function () {
                 controlsMenu.style.display = 'none';
                 player.style.display = 'table';
                 Readical.playerStat.isVisible = true;
+                $('.fa-play').trigger('click');  
+                audioPlayer.play();
             });
 
             playerX.addEventListener('click', function () {
@@ -164,6 +167,7 @@ $(document).ready(function () {
 
         return Readical;
     })(window);
+    
 });
 
 
