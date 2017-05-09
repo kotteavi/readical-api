@@ -9,7 +9,8 @@ $(document).ready(function () {
             Readical.mostVisible = new readical_helper_mostVisible(wordSpans, options);
             Readical.playerStat = {
                 currPositionElements: null,
-                isVisible: false
+                isVisible: false,
+                isScrubbed: false
             };
             Readical.player = null;
         };
@@ -24,7 +25,9 @@ $(document).ready(function () {
             var prevFlatTime = -1.0;
             var className = '';
             var elements, prevElements;
-            var scrolled = false;
+            var isManualScroll = false;
+
+            var isCurrVisible = false;
 
             audioPlayer.addEventListener("timeupdate", function (e) {
                 currTime = audioPlayer.currentTime;
@@ -34,13 +37,19 @@ $(document).ready(function () {
                     className = 'readical_group_' + flatTime;
                     elements = document.getElementsByClassName(className);
                     Readical.playerStat.currPositionElements = elements;
+
                     for (let i = 0; i < elements.length; i++) {
                         elements[i].style.background = 'yellow';
-                        if (!readical_helper_verge.inViewport(elements[i])) {
-                            // scroll into view assumes it's scrubbing 
-                            // but if from last thing 
-                            elements[i].scrollIntoView(true);
-                            scrolled = true;
+                        isCurrVisible = readical_helper_verge.inViewport(elements[i]);
+                        if (!isCurrVisible && (i == elements.length - 1)) {
+
+                            var x = elements[i].offsetLeft;
+                            var y = elements[i].offsetTop;
+
+                            var height = elements[i].getBoundingClientRect().height;
+                            window.scrollTo(x, y - height * 2);
+
+                            isManualScroll = true;
                         }
                     }
                 }
@@ -60,8 +69,8 @@ $(document).ready(function () {
             var topWordSpan = null;
             var wordTimeStamp = null;
             window.addEventListener('scroll', function (e) {
-                if (scrolled) {
-                    scrolled = false;
+                if (isManualScroll) {
+                    isManualScroll = false;
                 }
                 else {
                     // update player based on to pmost visible element/word 
@@ -87,7 +96,7 @@ $(document).ready(function () {
                 controlsMenu.style.display = 'none';
                 player.style.display = 'table';
                 Readical.playerStat.isVisible = true;
-                $('.fa-play').trigger('click');  
+                $('.fa-play').trigger('click');
                 audioPlayer.play();
             });
 
@@ -164,10 +173,9 @@ $(document).ready(function () {
         // }
         // addArticleTime();
 
-
         return Readical;
     })(window);
-    
+
 });
 
 
