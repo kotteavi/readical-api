@@ -2,13 +2,24 @@
 var getTimestamps = function (watsonResults) {
     var alternativeTimestamps = [];
     var timestamps = [];
+    var resultsLen = 0;
     for (let i = 0; i < watsonResults.length; i++) {
 
         if (watsonResults[i].result_index != i) {
             console.log("missing result:  " + i);
         }
-        timestamps = watsonResults[i].results[0].alternatives[0].timestamps;
-        alternativeTimestamps = alternativeTimestamps.concat(timestamps);
+        resultsLen = watsonResults[i].results.length;
+        if (resultsLen <= 1) {
+            timestamps = watsonResults[i].results[0].alternatives[0].timestamps;
+            alternativeTimestamps = alternativeTimestamps.concat(timestamps);
+        }
+        else if (resultsLen > 1) {
+            for (let r = 0; r < resultsLen; r++) {
+                timestamps = watsonResults[i].results[r].alternatives[0].timestamps;
+                alternativeTimestamps = alternativeTimestamps.concat(timestamps);
+            }
+        }
+
     }
     return alternativeTimestamps;
 }

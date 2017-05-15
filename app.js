@@ -90,11 +90,68 @@ app.get('/audibleTest', (req, res) => {
 
   var attributes = {
     syncData: syncData,
-    audio: audioAttributes
+    audio: audioAttributes,
+    title: 'I Shall Seal the Heavens (我欲封天)'
   };
 
   res.render('../views/audibleTemplate.pug', attributes);
 
 });
+
+const garfield = require('./widgetSample/Garfield/WatsonResults.js');
+app.get('/peterAudio', (req, res) => {
+
+  var data = fs.readFileSync('./widgetSample/Garfield/text.txt');
+  data = structure.createWordsMetadata(data.toString());
+
+  var timestamps = structure.getTimestamps(garfield.GarfieldWatsonResults);
+
+  extrapolation.fixMetaData(data, timestamps);
+  var syncData = structure.createSyncMetaData(data);
+
+  var audioAttributes = {
+    src: '/Garfield/audio_64kpbs.mp3'
+  }
+
+  var attributes = {
+    syncData: syncData,
+    audio: audioAttributes,
+    title: 'Garfield - Sheen Instincts'
+  };
+
+  res.render('../views/audibleTemplate.pug', attributes);
+
+});
+
+// const SpeechToTextV1 = require('watson-developer-cloud/speech-to-text/v1');
+
+// const speech_to_text = new SpeechToTextV1({
+//   "url": "https://stream.watsonplatform.net/speech-to-text/api",
+//   "username": "ae85b4a1-9a58-4926-bcd0-09254c2324a6",
+//   "password": "olda4rYuLywZ"
+// });
+
+// const params = {
+//   content_type: 'audio/wav'
+// };
+
+// // create the stream
+// const recognizeStream = speech_to_text.createRecognizeStream(params);
+
+// // pipe in some audio
+// fs.createReadStream(__dirname + '/resources/speech.wav').pipe(recognizeStream);
+
+// // and pipe out the transcription
+// recognizeStream.pipe(fs.createWriteStream('transcription.txt'));
+
+// // listen for 'data' events for just the final text
+// // listen for 'results' events to get the raw JSON with interim results, timings, etc.
+
+// recognizeStream.setEncoding('utf8'); // to get strings instead of Buffers from `data` events
+
+// ['data', 'results', 'speaker_labels', 'error', 'close'].forEach(function (eventName) {
+//   recognizeStream.on(eventName, console.log.bind(console, eventName + ' event: '));
+// });
+
 
 app.listen(SERVER_PORT, '0.0.0.0');
